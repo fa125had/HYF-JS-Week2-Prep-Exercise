@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * The `trafficLight` object is now no longer a global variable. Instead,
  * it is defined in function `main()` and passed as a parameter to other
@@ -10,8 +10,24 @@ function getCurrentState(trafficLight) {
 }
 
 function getNextStateIndex(trafficLight) {
-  return getCurrentState(trafficLight) === 'red' ? trafficLight.stateIndex = 0 : trafficLight.stateIndex += 1;
+  // Solution1 -- if we assume the input always is ['green', 'orange', 'red']
+  //
+  // return getCurrentState(trafficLight) === 'red'
+  //   ? (trafficLight.stateIndex = 0)
+  //   : (trafficLight.stateIndex += 1);
 
+  // Solution2 -- for dynamic inputs
+  if( getCurrentState(trafficLight) === 'green') {
+    //find next state index in array and return that
+    const nextState = trafficLight.possibleStates.indexOf('orange');
+    return nextState; 
+  } else if (getCurrentState(trafficLight) === 'orange') {
+    const nextState = trafficLight.possibleStates.indexOf('red');
+    return nextState; 
+  } else if (getCurrentState(trafficLight) === 'red') {
+    const nextState = trafficLight.possibleStates.indexOf('green');
+    return nextState;  
+  }
 }
 
 // This function loops for the number of seconds specified by the `secs`
@@ -28,13 +44,13 @@ function waitSync(secs) {
 
 function main() {
   const trafficLight = {
-    possibleStates: ["green", "orange", "red"],
+    possibleStates: ['green', 'orange', 'red'],
     stateIndex: 0,
   };
 
   for (let cycle = 0; cycle < 6; cycle++) {
     const currentState = getCurrentState(trafficLight);
-    console.log(cycle, "The traffic light is now", currentState);
+    console.log(cycle, 'The traffic light is now', currentState);
 
     waitSync(1); // Wait a second before going to the next state
     trafficLight.stateIndex = getNextStateIndex(trafficLight);
