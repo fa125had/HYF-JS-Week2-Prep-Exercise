@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 function runExperiment(sampleSize) {
   const valueCounts = [0, 0, 0, 0, 0, 0];
@@ -12,8 +12,18 @@ function runExperiment(sampleSize) {
   //    value from the previous step. Use the first element of `valueCounts`
   //    for keeping a count how many times the value 1 is thrown, the second
   //    element for value 2, etc.
+  for (let i = 0; i < sampleSize; i++) {
+    const randomDiceSide = Math.floor(Math.random() * 6);
+    valueCounts[randomDiceSide] += 1;
+  }
 
   const results = [];
+
+  for (const valueCount of valueCounts) {
+    const possibility = ((valueCount / sampleSize) * 100).toFixed(2);
+    results.push(possibility);
+  }
+  return results;
 
   // TODO
   // Write a for..of loop for the `valueCounts` array created in the previous
@@ -41,6 +51,12 @@ function main() {
   // [ '26.00', '17.00', '10.00', '19.00', '16.00', '12.00' ] 100
   // [ '14.60', '17.10', '19.30', '15.50', '16.70', '16.80' ] 1000
   // [ '16.71', '16.68', '16.69', '16.66', '16.67', '16.59' ] 1000000
+
+  // Solution
+  for (const sampleSize of sampleSizes) {
+    const experimentResult = runExperiment(sampleSize);
+    console.log(experimentResult, sampleSize);
+  }
 }
 
 main();
